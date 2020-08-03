@@ -1,0 +1,24 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<footer th:fragment="footer1">
+    <p>All Rights Reserved</p>
+</footer>
+<footer th:fragment="footer2(start,now)">
+    <p th:text="|${start} - ${now} All Rights Reserved|"></p>
+</footer>
+
+<!--右上角个人中心-->
+<li th:fragment="userCenter(nickname)" class="layui-nav-item" lay-unselect="">
+    <a href="/config/userCenter">
+        <cite th:text="${nickname}?:'匿名用户'">[[]]</cite>
+        <span class="layui-nav-more"></span></a>
+   <dl class="layui-nav-child layui-anim layui-anim-upbit" >
+      <dd style=""><a href="javascript:;">
+         <i class="layui-icon layui-icon-user"></i>&nbsp;&nbsp;个人信息</a></dd>
+      <dd style=""><a href="javascript:;">
+         <i class="layui-icon layui-icon-key"></i>&nbsp;&nbsp;修改密码</a></dd>
+      <hr>
+      <dd  style=""><a href="/logout">
+         <i class="layui-icon layui-icon-logout"></i>&nbsp;&nbsp;退出</a></dd>
+   </dl>
+</li>
+</html>

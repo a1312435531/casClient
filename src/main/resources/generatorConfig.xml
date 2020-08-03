@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+  	<properties resource="config/c3p0.properties"/>
+    <context id="DB2Tables"    targetRuntime="MyBatis3">
+        <!--避免生成重复代码的插件-->
+        <plugin type="com.emily.utils.OverIsMergeablePlugin" />
+  		
+        <!--是否在代码中显示注释-->
+        <commentGenerator>
+            <property name="suppressDate" value="true" />
+            <property name="suppressAllComments" value="true" />
+        </commentGenerator>
+        <!--数据库链接地址账号密码-->
+        <jdbcConnection 
+        driverClass="${c3p0.driverClass}" 
+        connectionURL="${c3p0.jdbcUrl}" 
+        userId="${c3p0.user}" 
+        password="${c3p0.password}">
+        </jdbcConnection>
+        <!--不知道做什么用的。。。反正贴上来了~-->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+        <!--生成pojo类存放位置-->
+        <javaModelGenerator targetPackage="com.emily.pojo" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <!--生成xml映射文件存放位置-->
+        <sqlMapGenerator targetPackage="com.emily.mapper" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+        <!--生成mapper类存放位置-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.emily.mapper" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+  
+        <!--生成对应表及类名-->
+        <!--
+
+		<table schema="" tableName="user_role"></table>
+
+		<table schema="" tableName="role_permission"></table>
+        <table schema="" tableName="role"></table>
+        <table schema="" tableName="user"></table>
+        <table tableName="web_app" ></table>
+        <table schema="" tableName="permission"></table>
+        -->
+        <table tableName="resource" ></table>
+ 
+    </context>
+</generatorConfiguration>

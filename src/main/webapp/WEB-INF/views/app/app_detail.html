@@ -1,0 +1,44 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: common_header(~{::title},~{},~{::style})">
+    <title></title>
+    <style>
+        .required{
+            color: red;
+            letter-spacing: 6px;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="common/js::common_js(~{::script})">
+    <script th:src="@{/static/app/js/app_detail.js}">
+    </script>
+</div>
+<div class="layui-container layerContent">
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="required">*</span>应用名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" required  lay-verify="required"
+                       placeholder=""
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="required">*</span>应用URL</label>
+            <div class="layui-input-block">
+                <input type="text" name="url" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                       <!--th:value="${#strings.substringBefore(#strings.substringAfter(#strings.substringAfter(client.serviceId,'/'),'/'),'.')}"-->
+
+            </div>
+        </div>
+
+        <div class="layui-inline btn-position">
+            <div type="button" class="layui-btn  " id="doConfirm" lay-submit lay-filter="*">确定</div>
+            <div type="button" class="layui-btn layui-btn-primary " id="doCancel">关闭</div>
+        </div>
+
+    </form>
+</div>
+
+</body>
+</html>

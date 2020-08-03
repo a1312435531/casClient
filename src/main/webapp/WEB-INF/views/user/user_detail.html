@@ -1,0 +1,84 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: common_header(~{::title},~{},~{::style})">
+    <title></title>
+    <style>
+        .required{
+            color: red;
+            letter-spacing: 6px;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="common/js::common_js(~{::script})">
+    <script th:src="@{/static/user/js/user_detail.js}">
+    </script>
+</div>
+<div class="layui-container layerContent">
+    <form class="layui-form">
+        <input name="createDate"  th:value="${#dates.format(user.getCreateDate(), 'yyyy-MM-dd HH:mm:ss')}?:''" hidden>
+        <input name="id"   th:value="${user.getId()}?:''" hidden>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="required">*</span>用户名</label>
+            <div class="layui-input-block">
+                <input type="text" name="username" required  lay-verify="required" th:value="${user.getUsername()?:''}"
+                       placeholder="请输入用户名" th:disabled="${action==1}"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="required">*</span>昵称</label>
+            <div class="layui-input-block">
+                <input type="text" name="nickname" required  lay-verify="required" th:value="${user.getNickname()?:''}"
+                       th:disabled="${action==1}"  placeholder="请输入昵称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="required">*</span>用户角色</label>
+            <div class="layui-input-block" >
+                <select  name="roleId"  th:disabled="${action==1}">
+                    <option value=""></option>
+                    <option th:each="role:${roles}" th:value="${role.getId()?:''}" th:text="${role.getName()?:''}"
+                            th:selected="${user.getRoleId()==role.getId()||(user.getId()==null&&role.getIdentifier()=='person')}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="required">*</span>性别</label>
+            <div class="layui-input-block">
+                <input type="radio" name="gender" th:value="男" title="男" checked th:disabled="${action==1&&user.getGender()!='男'}"/>
+                <input type="radio" name="gender" th:value="女" title="女" th:checked="${user.getGender()=='女'}" th:disabled="${action==1&&user.getGender()!='女'}"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">手机号码</label>
+            <div class="layui-input-block">
+                <input type="text" name="phoneNumber"  th:value="${user.getPhoneNumber()?:''}"
+                       th:disabled="${action==1}"  placeholder="请输入手机号码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">电子邮箱</label>
+            <div class="layui-input-block">
+                <input type="text" name="email" th:value="${user.getEmail()?:''}"
+                       th:disabled="${action==1}" placeholder="请输入电子邮箱" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item" th:if="${action!=1}">
+            <label class="layui-form-label"><span class="required">*</span>密码</label>
+            <div class="layui-input-block">
+                <input type="password" name="password" required
+                       th:disabled="${action==1}"  placeholder="请输入密码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-inline btn-position">
+            <div th:if="${action!=1}" type="button" class="layui-btn  " id="doConfirm" lay-submit lay-filter="*">确定</div>
+            <div type="button" class="layui-btn layui-btn-primary " id="doCancel">关闭</div>
+        </div>
+
+    </form>
+</div>
+
+</body>
+</html>

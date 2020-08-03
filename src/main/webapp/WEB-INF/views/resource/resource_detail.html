@@ -1,0 +1,53 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: common_header(~{::title},~{},~{::style})">
+    <title></title>
+    <style>
+        .required{
+            color: red;
+            letter-spacing: 6px;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="common/js::common_js(~{::script})">
+    <script th:src="@{/static/resource/js/resource_detail.js}">
+    </script>
+</div>
+<div class="layui-container layerContent">
+    <form class="layui-form">
+        <input name="id"   th:value="${resource.getId()}?:''" hidden>
+        <input name="pId"   th:value="${pId}?:''" hidden>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="required">*</span>资源名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" required  lay-verify="required" th:value="${resource.getName()?:''}"
+                       placeholder=""
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">资源标识</label>
+            <div class="layui-input-block">
+                <input type="text" name="identifier"  th:value="${resource.getIdentifier()?:''}"
+                         placeholder="" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">资源URL</label>
+            <div class="layui-input-block">
+                <input type="text" name="url"  th:value="${resource.getUrl()?:''}"
+                        placeholder="" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+
+        <div class="layui-inline btn-position">
+            <div type="button" class="layui-btn  " id="doConfirm" lay-submit lay-filter="*">确定</div>
+            <div type="button" class="layui-btn layui-btn-primary " id="doCancel">关闭</div>
+        </div>
+
+    </form>
+</div>
+
+</body>
+</html>

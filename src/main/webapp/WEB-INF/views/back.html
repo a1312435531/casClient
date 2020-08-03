@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+        "http://www.w3.org/TR/html4/frameset.dtd">
+<html xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="common/header :: common_header(~{::title},~{::link},~{::style})">
+    <title>统一用户管理</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/back/css/back.css}">
+    <style>
+    </style>
+</head>
+<body th:background="@{/static/img/5-120601092225.gif}">
+<div th:replace="common/js::common_js(~{::script})">
+    <script th:src="@{/static/back/js/back.js}"></script>
+    <script th:src="@{/static/index/js/index.js}"></script>
+</div>
+<input  id="id" th:value="${user.getId()?:''}" hidden />
+<div class="top">
+    <div class="layui-container top-container" >
+        <div class="title-container">
+            <div class="title-style" onclick="window.location.href='/back'">
+                统一用户管理系统
+            </div>
+        </div>
+        <div class="">
+            <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right" style="background: transparent;padding-right: 0;">
+
+
+                <li class="layui-nav-item layui-hide-xs" >
+                    <a href="/index" title="返回首页">
+                        <i class="layui-icon layui-icon-home"></i>
+                    </a>
+                </li>
+                <li th:replace="includes::userCenter(${user.nickname?:'匿名用户'})"></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="mid">
+    <div class="layui-container content">
+        <div class="layui-col-xs2" style="background: rgb(57,61,73);height: 100%;display: flex;justify-content: center;">
+            <div class="itemDiv">
+                <ul th:each="li:${list}" th:if="${li.getpId()}==${root.getId()}"
+                    class="layui-nav layui-nav-tree layui-inline" lay-filter="demo" style="margin-right: 10px;">
+                    <li class="layui-nav-item ">
+                        <a href="javascript:;" th:text="${li.getName()}"></a>
+                        <dl class="layui-nav-child">
+                            <dd class="child" th:each="lis:${list}" th:if="${lis.getpId()}==${li.getId()}">
+                                <a target="iframe"
+                                   th:href="(${lis.getUrl()}!='' and ${lis.getUrl()}!=null)?${lis.getUrl()}:'javascript:;'"
+                                   th:text="${lis.getName()}"></a>
+                            </dd>
+                        </dl>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+        <div class="layui-col-xs10" style="height: 100%;
+        background-color: rgb(242,242,242);">
+            <iframe  src="/welcome" id="baseIframe" style="height: 100%;width: 100%;"
+                    marginheight="0" marginwidth="0" frameborder="0" name="iframe"
+                      >
+            </iframe>
+        </div>
+
+    </div>
+
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="common/header :: common_header(~{::title},~{::link},~{::style})">
+        <link rel="stylesheet" type="text/css"   th:href="@{/zTree/css/metroStyle/metroStyle.css}"/>
+        <title></title>
+        <style></style>
+    </head>
+<body>
+<div th:replace="common/js::common_js(~{::script})">
+    <script th:src="@{/zTree/js/jquery.ztree.all.min.js}"></script>
+    <script>
+        var saveResourcePageUrl="/saveResourcePage";
+        var deleteResourceUrl="/deleteResource";
+
+        layui.use(['form','layer'],function () {
+            var id = $("#id").val();
+            var form = layui.form;
+            form.render();
+            function closeIframe(){
+                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                parent.layer.close(index); //再执行关闭
+            }
+            $("#doCancel").click(function () {
+                closeIframe();
+            });
+            $("#doConfirm").click(function () {
+                var zTreeObj = $.fn.zTree.getZTreeObj("treeDemo");
+                var nodes=zTreeObj.getCheckedNodes();
+                var nodesIds=[];
+                for(var i=0;i<nodes.length;i++){
+                    nodesIds.push(nodes[i].id);
+                }
+                $.ajax({
+                    type:'post',
+                    url:'/saveRolePermission/'+id,
+                    contentType: "application/json;charset=UTF-8",
+                    data:JSON.stringify(nodesIds),
+                    success:function(res){
+
+                        layer.msg('保存成功', {icon: 1, time: 1200, offset: '170px'}, function () {
+                            closeIframe();
+                        })
+                    },
+                    error:function (res) {
+                        layer.msg('保存失败', {icon: 2, time: 1200, offset: '170px'}, function () {
+                            closeIframe();
+                        })
+                    }
+                }) ;
+            });
+            function zTreeOnClick(event,treeId,treeNode){
+            };
+            var setting = {
+                view: {
+                    dblClickExpand: true,//双击节点时，是否自动展开父节点的标识
+                    showLine: true,//是否显示节点之间的连z线
+                    fontCss:{'font-weight':'600','font-size':'20px'},//字体样式函数
+                    selectedMulti: true //设置是否允许同时选中多个节点
+                },
+                check:{
+                    //chkboxType: { "Y": "ps", "N": "ps" },
+                    chkboxType: { "Y": "ps", "N": "s" },
+                    chkStyle: "checkbox",//复选框类型
+                    enable: true //每个节点上是否显示 CheckBox
+                },
+                data: {
+                    simpleData: {
+                        enable: true,
+                        idKey: "id",
+                        pIdKey: "pId",
+                        rootPId: 12
+                    },
+                    key:{
+                        url:'xUrl'
+                    }
+                },
+                callback:{
+                    onClick:zTreeOnClick,
+                    beforeClick:function(){
+                    },
+                    onAsyncSuccess:onAsyncSuccess
+                },
+                async:{
+                    enable: true,
+                    url:'/loadList',
+                    autoParam:["id"],
+                }
+            };
+
+            function onAsyncSuccess(treeId, treeNode) {
+                $.ajax({
+                    url: '/getRolePermission/'+id,
+                    success: function(res) {
+                        for (var i = 0;i < res.length;i++){
+                            //console.log(result.data[i].permissionId);
+                            zTree = $.fn.zTree.getZTreeObj("treeDemo"); //
+                            zTree.checkNode( zTree.getNodeByParam( "id",res[i]), true ); //根据id在ztree的复选框中实现自动勾选
+                        }
+                    }
+                });
+                var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+
+                showZtreeNum(true,zTree,2);
+                //classLevel即你动态赋值的想要展开的确定的等级
+                // 展开到确定的层数 思想如下 记住你跳转时选中的层级
+                function showZtreeNum(status,childNodes,level){
+                    // 调用时首次调用是showZtreeNum(true,zTree,classLevel) 获取总的结点
+                    // 然后递归调用其孩子结点
+                    if(status){
+                        var rootNodes = zTree.getNodes();
+                        showZtreeNum(false,rootNodes,level);//递归
+                    }else{
+                        if(childNodes){
+                            var len=childNodes.length;
+                            if(level<childNodes[0].level+1){
+                                return;
+                            }
+                            for (var i = 0; i < len; i++) {
+                                zTree.expandNode(childNodes[i], true, false, false, true);
+                                var child=childNodes[i].children;
+                                showZtreeNum(false,child,level);//递归
+                            }
+                        }
+                    }
+                }
+            }
+
+            $.fn.zTree.init($("#treeDemo"), setting);
+
+        });
+    </script>
+</div>
+<div class="layui-container layerContent">
+    <input hidden th:value="${id}?:''" id="id">
+    <div style="margin-left: 30px;">
+        <ul id="treeDemo" class="ztree"></ul>
+    </div>
+    <div class="layui-inline btn-position">
+        <div type="button" class="layui-btn  " id="doConfirm" lay-submit lay-filter="*">确定</div>
+        <div type="button" class="layui-btn layui-btn-primary " id="doCancel">关闭</div>
+    </div>
+</div>
+
+</body>
+</html>

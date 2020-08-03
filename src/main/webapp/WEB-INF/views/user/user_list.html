@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../../../layui/css/layui.css"
+          th:href="@{/layui/css/layui.css}"/>
+    <link rel="stylesheet" href="../../../static/back/css/layerCommon.css"
+          th:href="@{/static/back/css/layerCommon.css}"/>
+    <script type="text/javascript" th:src="@{/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+    <script type="text/javascript" th:src="@{/static/user/js/user_list.js}"></script>
+    <title></title>
+
+</head>
+<body>
+<div class="table-content">
+    <table id="demo" lay-filter="ope"></table>
+</div>
+</body>
+<script type="text/html" id="toolbarDemo">
+    <div class="">
+        <button type="button" lay-event="doAdd" class="layui-btn  layui-btn-primary" style="line-height: 30px;">
+            <i class="layui-icon layui-icon-add-1"></i>新增用户
+        </button>
+        <button class="layui-btn  layui-btn-danger" lay-event="getCheckData" style="line-height: 30px;">
+            <i class="layui-icon layui-icon-delete"></i>删除选中</button>
+        <div class="layui-inline" style="float: right">
+        <div class="layui-inline" >
+            <div class="layui-input-inline">
+                <input type="text" name="name" id="name"
+                       autocomplete="off" class="layui-input" placeholder="输入昵称或用户名"
+                       style="width: 140px;">
+            </div>
+            <div class="layui-input-inline" style="width: 120px;">
+                <select  name="roleId" id="roleId">
+                    <option value="">选择角色</option>
+                    <option th:each="role:${roles}" th:value="${role.getId()?:''}" th:text="${role.getName()?:''}"
+                            ></option>
+                </select>
+            </div>
+        </div>
+        <button type="button" lay-event="doSelect" class="layui-btn layui-btn-primary "><i class="layui-icon layui-icon-search"></i></button>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="barDemo">
+    <button class='layui-btn layui-btn-primary layui-btn-xs ' lay-event='doLook'>查看</button>
+    <button class='layui-btn layui-btn-xs ' lay-event='doUpdate'>编辑</button>
+    <button class='layui-btn layui-btn-xs layui-btn-danger' lay-event='doDelete'>删除</button>
+</script>
+</html>
