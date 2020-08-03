@@ -20,7 +20,7 @@
     <maven.compiler.target>1.7</maven.compiler.target>
     <mybatis.version>3.1.1</mybatis.version>
     <pagehelper.version>5.1.2-beta</pagehelper.version>
-    <mysql.version>5.1.6</mysql.version>
+    <mysql.version>8.0.16</mysql.version>
     <mybatis.spring.version>1.2.3</mybatis.spring.version>
     <druid.version>1.0.18</druid.version>
     <log4j.version>1.2.16</log4j.version>
